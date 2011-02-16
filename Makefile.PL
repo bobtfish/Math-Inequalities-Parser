@@ -14,7 +14,7 @@ author_requires 'Test::Pod' => '1.14';
 
 author_tests 't/author';
 
-resources repository => 'git://somewhere.com/myproject.git';
+resources repository => 'git://github.com/bobtfish/Math-Inequalities-Parser.git';
 
 if ($Module::Install::AUTHOR) {
     system("pod2text lib/Math/Inequalities/Parser.pm > README")

@@ -12,17 +12,17 @@ sub parse_inequality {
     if ($string =~ /^\s*(\d+)\s*<\s*n\s*<\s*(\d+)\s*$/ ) {
         return ($1+1, $2-1);
     }
-    elsif ($string =~ /^\s*(\d+)\s*<\s*n/ ) {
-        return ($1+1, undef);
+    elsif ($string =~ /^\s*(\d+)\s*<(=)?\s*n/ ) {
+        return ($1 + ($2 ? 0 : 1), undef);
     }
-    elsif ($string =~ /^\s*(\d+)\s*>\s*n\s*$/ ) {
-        return (undef, $1-1);
+    elsif ($string =~ /^\s*(\d+)\s*>(=)?\s*n\s*$/ ) {
+        return (undef, $1 - ($2 ? 0 : 1));
     }
-    elsif ($string =~ /^\s*n\s*>\s*(\d+)\s*$/ ) {
-        return ($1+1, undef);
+    elsif ($string =~ /^\s*n\s*>(=)?\s*(\d+)\s*$/ ) {
+        return ($2 + ($1 ? 0 : 1), undef);
     }
-    elsif ($string =~ /^\s*n\s*<\s*(\d+)\s*$/ ) {
-        return (undef, $1-1);
+    elsif ($string =~ /^\s*n\s*<(=)?\s*(\d+)\s*$/ ) {
+        return (undef, $2 - ($1 ? 0 : 1));
     }
     elsif ($string =~ /^\s*(\d+)\s*$/ ) {
         return ($1, $1);
@@ -49,7 +49,10 @@ Math::Inequalities::Parser - Minimum and maximum values allowed by an inequality
 
 =head1 DESCRIPTION
 
-Trivial library for parsing integer maximum and minimum out when given an arbitrary inequality.
+Tiny library for parsing integer maximum and minimum out when given an arbitrary inequality.
+
+Because getting this simple thing right was far harder
+than it looked, and I never want to have to think about it again.
 
 =head1 FUNCTIONS
 
@@ -58,11 +61,43 @@ Trivial library for parsing integer maximum and minimum out when given an arbitr
 Parses an inequality string and returns a list of two values, the minimum and the maxium value
 that string will allow.
 
+=head1 TYPES OF INEQUALITY
+
+=head2 VALUE
+
+The simplest type, a single value, e.g. C<< 42 = Min 42, Max 42 >>.
+
+=head2 n < VALUE
+
+Maximum is VALUE - 1, Minimum is undefined, e.g. C<< n < 42 = Min undef, Max 41 >>.
+
+=head2 n > VALUE
+
+Minimum is VALUE +1, Maximum is undefined, e.g. C<< n > 42 = Min 43, Max undef >>.
+
+=head2 n <= VALUE
+
+Maximum is VALUE, Minimum is undefined, e.g. C<< n < 42 = Min undef, Max 42 >>.
+
+=head2 n >= VALUE
+
+Minimum is VALUE, Maximum is undefined, e.g. C<< n > 42 = Min 42, Max undef >>.
+
+=head2 Cases with VALUE, followed by N.
+
+Handled as above, but with minimum and maximum reversed as expected.
+
+=head2 VALUE1 < n < VALUE2
+
+Minimum is VALUE1 + 1, maximum is VALUE2 - 1, e.g C<< 42 < n < 200 = Min 43, Max 199 >>.
+
 =head1 BUGS
 
 =over
 
-=item B<DOES NOT> support the C<< <= >> or C<< >= >> operators. Patch very welcome.
+=item Does not handle C<< VALUE1 <= n <= VALUE2 >> or similar. Patches welcome.
+
+=item Does not complain at impossible C<<VALUE1 < n < VALUE 2 >> combinations (e.g. C<< 5 < n < 4 >>) which result in a higher minumum than the maxiumum. Patches welcome.
 
 =item Does not work with negative numbers. Patches welcome.
 

@@ -6,6 +6,8 @@ use Exporter qw/ import /;
 
 our @EXPORT = qw/ parse_inequality /;
 
+our $VERSION = '0.001';
+
 sub parse_inequality {
     my ($string) = @_;
     $string ||= '';

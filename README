@@ -1,0 +1,39 @@
+NAME
+    Math::Inequalities::Parser - Minimum and maximum values allowed by an
+    inequality.
+
+SYNOPSIS
+        use Math::Inequalities::Parser;
+    
+        my ($min, $max) = parse_inequality( ' 10 < n < 20 ' );
+        # $min = 11
+        # $max = 19
+
+DESCRIPTION
+    Trivial library for parsing integer maximum and minimum out when given
+    an arbitrary inequality.
+
+FUNCTIONS
+  parse_inequality
+    Parses an inequality string and returns a list of two values, the
+    minimum and the maxium value that string will allow.
+
+BUGS
+    DOES NOT support the "<=" or ">=" operators. Patch very welcome.
+    Does not work with negative numbers. Patches welcome.
+    Always uses "n" as the number identifier, this should be configureable
+    at import time.
+    Uses Exporter (should use Sub::Exporter)
+    DOES NOT work with floating point numbers. I consider this a feature.
+
+AUTHORS
+    Tomas Doran (t0m) "<bobtfish@bobtfish.net>"
+
+    Dave Lambley
+
+COPYRIGHT & LICENSE
+    Copyright 2011 the above author(s).
+
+    This sofware is free software, and is licensed under the same terms as
+    perl itself.
+

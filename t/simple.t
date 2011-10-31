@@ -16,6 +16,8 @@ my %tests = (
     '11>=n'     => [undef, 11],
     'n>=11'     => [11, undef],
     'n<=11'     => [undef, 11],
+    ''          => [undef, undef],
+    '    '      => [undef, undef],
 );
 
 foreach my $t (keys %tests) {

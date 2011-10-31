@@ -29,7 +29,7 @@ sub parse_inequality {
     elsif ($string =~ /^\s*(\d+)\s*$/ ) {
         return ($1, $1);
     }
-    elsif (length $string) {
+    elsif (length $string && $string !~ /^\s+$/) {
         croak "Cannot parse '$string' as an inequality.";
     }
     return (undef, undef);
